@@ -3,9 +3,10 @@ require 'pry'
 require 'httparty'
 
 class Episode
-    attr_reader :parsed_episode
+    attr_reader :parsed_episode, :url, :page
     def initialize(url)
-        @url = HTTParty.get(url)
+        @url = url
+        @page = HTTParty.get(self.url)
         @parsed_episode = parse_page
         
     end
@@ -15,7 +16,7 @@ class Episode
     end
 
     def parse_page
-        return Nokogiri::HTML(@url)
+        return Nokogiri::HTML(self.page)
     end
 
     def title
